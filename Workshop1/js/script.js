@@ -101,7 +101,7 @@ $("#add_book").click(function () {
         title: "新增書籍",
         actions: ["pin", "Minimize", "Maximize", "Close"],
         modal: true,
-        width: "500px",
+        width: "501px",
         height: "602px",        
         position: {
             top: 100,
