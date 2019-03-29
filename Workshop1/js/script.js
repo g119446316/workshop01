@@ -102,7 +102,7 @@ $("#add_book").click(function () {
         actions: ["pin", "Minimize", "Maximize", "Close"],
         modal: true,
         width: "500px",
-        height: "600px",        
+        height: "601px",        
         position: {
             top: 100,
             left: "35%"
