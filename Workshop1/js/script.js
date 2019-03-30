@@ -25,7 +25,7 @@ function book_gird() {
             pageSize: 20,
         },
         height: 550,
-        pageable: true,
+        pageable: true,     
         columns:
             [
                 { command: { text: "刪除", click: DeleteButtonIsClicked } },
@@ -86,7 +86,7 @@ function book_gird() {
 }
 
 function DeleteButtonIsClicked(e) {
-    var tr = $(e.target).closest("tr"); // get the current table row (tr)
+    var tr = $(e.target).closest("tr"); 
     var data = this.dataItem(tr);
     var dataSource = $("#book_grid").data("kendoGrid").dataSource;
     console.log("Details for: " + data.BookId);
@@ -95,30 +95,27 @@ function DeleteButtonIsClicked(e) {
     });
 }
 
-function form() {
-$("#add_book").click(function () {   
-    $("#ad").kendoWindow({
-        title: "新增書籍",
-        actions: ["pin", "Minimize", "Maximize", "Close"],
-        modal: true,
-        width: "500px",
-        height: "600px",        
-        position: {
-            top: 100,
-            left: "35%"
-        },
-        close:onClose
-
-    });
-    
-   
+$("#ad").kendoWindow({
+    title: "新增書籍",
+    actions: ["pin", "Minimize", "Maximize", "Close"],
+    modal: true,
+    width: "500px",
+    height: "600px",
+    position: {
+        top: 100,
+        left: "35%"
+    },
 });
-}
+
+$("#add_book").click(function () {   
+    var dialog = $("#ad").data("kendoWindow");
+    dialog.open();      
+});
 
 
-$(function () {
+
+$(function () {    
     book_gird();
-    loadBookData();
-    form();
+    loadBookData();  
     
 });
