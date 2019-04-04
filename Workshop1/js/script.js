@@ -11,16 +11,11 @@ var bookCategoryList = [
 // 載入書籍資料
 function loadBookData() {
     bookDataFromLocalStorage = JSON.parse(localStorage.getItem('bookData'));
-
     if (bookDataFromLocalStorage == null) {
         bookDataFromLocalStorage = bookData;
         localStorage.setItem('bookData', JSON.stringify(bookDataFromLocalStorage));
     }
-
-
 }
-
-
 $("#book_category").kendoDropDownList({
     dataTextField: "text",
     dataValueField: "value",
@@ -81,9 +76,10 @@ $("#book_amount").change(function () {
     document.getElementById("book_total").innerHTML = price * amount;
 
 });
-
+var BookDeliveredDate = null;
 function book_gird() {
     bookDataFromLocalStorage = JSON.parse(localStorage.getItem('bookData'));
+    
     $("#book_grid").kendoGrid({
         dataSource: {
             type: "json",
@@ -123,9 +119,10 @@ function book_gird() {
                     width: 100
                 },
                 {
-                    field: "a",
+                    field: "BookDeliveredDate",
                     title: "送達狀態",
-                    width: 100,
+                    template: "#if(BookDeliveredDate != null){#<div class='customer-photo' onmouseover='Domouseover(this)' style='background-image: url(image/car.png);'></div>#}#",
+                    width: 100
                 },
                 {
                     field: "BookPrice",
@@ -156,7 +153,9 @@ function book_gird() {
 
                 }],
 
+
     });
+   
 }
 
 
@@ -183,7 +182,7 @@ function DeleteButtonIsClicked(e) {
         //$('#book_grid').data('kendoGrid').refresh();
         location.reload();
     });
-    
+
 
 
     /*var dataSource = $("#book_grid").data("kendoGrid").dataSource;
@@ -194,6 +193,16 @@ function DeleteButtonIsClicked(e) {
     */
 
 }
+
+function Domouseover(e) {
+    //var tr = $(e.target).closest("tr");
+   // var data = this.dataItem(tr);
+    var dataSource = $("#book_grid").data("kendoGrid").dataSource;
+   // console.log(tr);
+    console.log(dataSource);
+}
+
+
 
 $("#ad").kendoWindow({
     title: "新增書籍",
@@ -239,8 +248,19 @@ $("#save_book").click(function () {
     });
     localStorage.setItem('bookData', JSON.stringify(bookDataFromLocalStorage));
     console.log(bookDataFromLocalStorage);
+    
 
 });
+
+$("#filter").keyup(function (e) {
+    var kendoGrid = $("#book_grid").data("kendoGrid");
+    var search = { logic: "or", filters: [] };
+    search.filters.push({ field: "BookName", operator: "contains", value: $("#filter").val() });
+    search.filters.push({ field: "BookAuthor ", operator: "contains", value: $("#filter").val() });
+    kendoGrid.dataSource.filter(search);    
+});
+
+
 
 $(function () {
     book_gird();
